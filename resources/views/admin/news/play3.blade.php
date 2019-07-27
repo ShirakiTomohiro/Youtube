@@ -47,6 +47,7 @@ $response = json_get('https://www.googleapis.com/youtube/v3/search', array(
             $t = new DateTime($item['snippet']['publishedAt']);
             $t->setTimeZone(new DateTimeZone('Asia/Tokyo'));
             $publishedAt = $t->format('Y/m/d H:i:s'); // 投稿日時 (日本時間)
+            
             ?>
             
             <a href="https://www.youtube.com/watch?v=<?php eh($id) ?>"><img src="<?php eh($img['url']) ?>"></a><br>

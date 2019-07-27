@@ -48,13 +48,14 @@ $response = json_get('https://www.googleapis.com/youtube/v3/search', array(
             $t->setTimeZone(new DateTimeZone('Asia/Tokyo'));
             $publishedAt = $t->format('Y/m/d H:i:s'); // 投稿日時 (日本時間)
             ?>
-            
+            <!-- <?php echo json_encode($item, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) ?> -->
             <a href="https://www.youtube.com/watch?v=<?php eh($id) ?>"><img src="<?php eh($img['url']) ?>"></a><br>
             <a class="item-title" href="https://www.youtube.com/watch?v=<?php eh($id) ?>"><?php eh($item['snippet']['title']) ?></a><br>
             <span class="item-publishedAt"><?php eh($publishedAt) ?></span>
             <hr>
         <?php } ?>
     <?php } ?>
+       
 
 
 

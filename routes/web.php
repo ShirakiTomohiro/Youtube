@@ -38,6 +38,7 @@ Route::group(['prefix' => 'admin'], function(){
     Route::get('news/play17', 'Admin\YoutubeController@play17')->middleware('auth');
     Route::get('news/play18', 'Admin\YoutubeController@play18')->middleware('auth');
     Route::get('news/play19', 'Admin\YoutubeController@play19')->middleware('auth');
+    Route::get('news/kk', 'Admin\YoutubeController@kk');
 });
 Auth::routes();
 

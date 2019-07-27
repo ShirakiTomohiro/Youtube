@@ -78,7 +78,7 @@ class YoutubeController extends Controller
     
     public function play12()
     {
-        return view('admin.news,play12');
+        return view('admin.news.play12');
     }
     
     public function play13()
@@ -114,5 +114,10 @@ class YoutubeController extends Controller
     public function play19()
     {
         return view('admin.news.play19');
+    }
+    
+    public function kk()
+    {
+        return view('admin.news.kk');
     }
 }
