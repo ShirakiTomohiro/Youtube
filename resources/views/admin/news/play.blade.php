@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.format')
 @section('title','My動画')
 @section('content')
 
@@ -14,21 +14,22 @@ function json_get($url, $query = array(), $assoc = false) { // JSONデータ取�
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true); // curl_exec() 経由で応答データを直接取得できるようにする
     curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10); // 接続タイムアウトの秒数
     $responseString = curl_exec($curl); // 応答データ取得
+    print $responseString;
+    exit;
     curl_close($curl);
     return ($responseString !== false) ? json_decode($responseString, $assoc) : false;
 }
-function h($value, $encoding = 'UTF-8') 
-{ return htmlspecialchars($value, ENT_QUOTES, $encoding); } // HTMlエスケープ出力用
+
 function eh($value, $encoding = 'UTF-8') 
-{ echo h($value, $encoding); } // 同上
+{ echo htmlspecialchars($value, ENT_QUOTES, $encoding); } // 同上
 
 
-$response = json_get('https://www.googleapis.com/youtube/v3/search', array(
+$response = json_get('https://ytranking.net/', array(
     'key' => 'AIzaSyDjdXsXm2J4-K78FdXCcroM8ZNbtpu-ENU',
     'channelId' => 'UCgMPP6RRjktV7krOfyUewqw', // チャンネルID (チャンネルで絞り込む場合)
     // 'q' => 'テスト', // 検索キーワード (キーワードで絞り込む場合)
     'part' => 'snippet', // 取得するデータの種類 (タイトルや画像を含める場合はsnippet)
-    'order' => 'viewCount', // 日時降順
+    'order' => 'viewCount', 
     'maxResults' => 50, // 検索数 (5～50)
     'type' => 'video', // 結果の種類 (channel,playlist,video)
 ), true);
@@ -55,7 +56,9 @@ $response = json_get('https://www.googleapis.com/youtube/v3/search', array(
             <hr>
         <?php } ?>
     <?php } ?>
-       
+      
+      
+      
 
 
 

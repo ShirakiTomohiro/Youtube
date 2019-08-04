@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-//use Alaouy\Youtube\Facades\Youtube;
+//use Alaouy\Youtube\Facades\Youtube
+use App\Youtube;
+use Goutte;
 
 class YoutubeController extends Controller
 {
@@ -12,7 +14,24 @@ class YoutubeController extends Controller
     {
         return view('admin.news.create');
     }
-    
+   public function scrape() {
+       $url = 'https://ytranking.net/';
+       function dbsave($url) {
+           
+           $crawler = Goutte::request('GET', $url);
+           $crawler->filter('ul.channel-list')->each(function($ul) {
+             echo $ul->html(); 
+           });
+           if($ul != ''){
+               $youtube = new Youtube;
+               $youtube->rank = $ul;
+               $youtube->save();
+           }
+       }
+   } 
+  
+
+   
     public function videos()
     {
         return view('admin.news.videos');
@@ -25,7 +44,22 @@ class YoutubeController extends Controller
     {
         return view('admin.news.index');
     }
-    
+    public function index2()
+    {
+        return view('admin.news.index2');
+    }
+    public function index3()
+    {
+        return view('admin.news.index3');
+    }
+    public function index4()
+    {
+        return view('admin.news.index4');
+    }
+    public function index5()
+    {
+        return view('admin.news.index5');
+    }
     public function play2()
     {
         return view('admin.news.play2');
@@ -36,7 +70,7 @@ class YoutubeController extends Controller
         return view('admin.news.play3');
     }
     
-    public function play4()
+    public function play4($channel_id, $id)
     {
         return view('admin.news.play4');
     }
