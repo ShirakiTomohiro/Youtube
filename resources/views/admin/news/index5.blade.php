@@ -2,22 +2,41 @@
 @section('title','My動画')
 @section('content')
 <?php
-$crawler = Goutte::request('GET', 'https://ytranking.net/?p=5');
-  $crawler->filter('ul.channel-list')->each(function ($ul){
-    $ul->filter('li')->each(function($data){
+$goutte = new \Goutte\Client();
+//ユーザーエージェント設定(設定してもしなくてもどちらでも大丈夫かも)
+$goutte->setHeader('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36 ');
+//Youtubeランキングサイトへアクセス
+$response = $goutte->request('GET', "https://ytranking.net/?p=5");
+//スクレイピングでデータ取得
 
-      $data->filter('p')->each(function($item){
-        $value = $item->text();
-        $array = ["チャンネル登録者数 : " ,"動画再生回数 : " ,"動画本数 : "];
-        $value = str_replace("people", "$array[0]", $value);
-        $value = str_replace("play_circle_filled", "$array[1]", $value);
-        $value = str_replace("videocam", "$array[2]", $value);
-        echo $value."<br>";
-      });
-      echo "<br>";
-    });
+$response->filter("ul.channel-list li")->each(function($li){
+$rank    = $li->filter("p.rank")->text();    //順位
+$thumbnail    = $li->filter("p.thumbnail img")->attr("src"); //サムネイルURL
+$title    = $li->filter("p.title")->text();    //チャンネル名
+$regist_num = "";
+$views_num = "";
+$video_num = "";
+$li->filter("aside p")->each(function($p, $i) use(&$regist_num, &$views_num, &$video_num){
+$array = ["チャンネル登録者数 : " ,"動画再生回数 : " ,"動画本数 : "];
+//登録者数
+if( $i == 0 ){
+$regist_num = str_replace("people", "$array[0]", $p->text());
+}
+//再生回数
+if( $i == 1 ){
+$views_num = str_replace("play_circle_filled", "$array[1]", $p->text());
+}
+//動画本数
+if( $i == 2 ){
+$video_num = str_replace("videocam", "$array[2]", $p->text());
+}
+});
+echo "{$rank}.<br><img src={$thumbnail}> .<br> {$title}.<br>{$regist_num}.<br> {$views_num}.<br> {$video_num}.<br>";
+
+  
 //    $ul->html();
   });
+  
 ?>
 <div class="pager">
   <ul class="pagination">

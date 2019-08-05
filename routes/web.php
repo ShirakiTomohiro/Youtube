@@ -54,7 +54,7 @@ Route::group(['prefix' => 'admin'], function(){
 Auth::routes();
 
 //Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/', 'Admin\YoutubeController@index');
+Route::get('/', 'Admin\YoutubeController@scrape');
 Route::get('/2', 'Admin\YoutubeController@index2');
 Route::get('/3', 'Admin\YoutubeController@index3');
 Route::get('/4', 'Admin\YoutubeController@index4');

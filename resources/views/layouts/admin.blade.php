@@ -67,6 +67,7 @@
                 </div>
             </nav>
             <main class="py-4">
+                <h2>Youtuberチャンネル登録者数ランキング</h2>
                 @yield('content')
             </main>
         </div>
