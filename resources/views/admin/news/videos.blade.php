@@ -22,39 +22,26 @@ function eh($value, $encoding = 'UTF-8') { echo h($value, $encoding); } // 同�
 
 
 
-$response = json_get('https://www.googleapis.com/youtube/v3/search', array(
-    'key' => 'AIzaSyDjdXsXm2J4-K78FdXCcroM8ZNbtpu-ENU',
-    'channelId' => 'UCZf__ehlCEBPop-_sldpBUQ', // チャンネルID (チャンネルで絞り込む場合)
-    // 'q' => 'テスト', // 検索キーワード (キーワードで絞り込む場合)
-    'part' => 'snippet', // 取得するデータの種類 (タイトルや画像を含める場合はsnippet)
-    'order' => 'viewCount', // 日時降順
-    'maxResults' => 50, // 検索数 (5～50)
-    'type' => 'video', // 結果の種類 (channel,playlist,video)
+$response = json_get('https://www.googleapis.com/youtube/v3/channels', array(
+    'part' => 'id',
+    'forUsername' => 'HikakinTV',
+    'key' => 'AIzaSyDjdXsXm2J4-K78FdXCcroM8ZNbtpu-ENU'
 ), true);
 //print_r($response);
 ?>
 
 
-    <h1>HikakinTV</h1>
-    <?php if ($response === false || isset($response['error'])) { ?>
-        動画情報が取得できませんでした。
-    <?php } elseif (count($response['items']) == 0) { ?>
-        検索結果が0件でした。
-    <?php } else { ?>
+    
+    
+    
         <?php foreach ($response['items'] as $item) {
-            $img = $item['snippet']['thumbnails']['default']; // 画像情報 (default, medium, highの順で画像が大きくなります)
-            $id = $item['id']['videoId'];
             
-            $t = new DateTime($item['snippet']['publishedAt']);
-            $t->setTimeZone(new DateTimeZone('Asia/Tokyo'));
-            $publishedAt = $t->format('Y/m/d H:i:s'); // 投稿日時 (日本時間)
+         echo  $id = $item['id'];
+            
+           
             ?>
-            <!-- <?php echo json_encode($item, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) ?> -->
-            <a href="https://www.youtube.com/watch?v=<?php eh($id) ?>"><img src="<?php eh($img['url']) ?>"></a><br>
-            <a class="item-title" href="https://www.youtube.com/watch?v=<?php eh($id) ?>"><?php eh($item['snippet']['title']) ?></a><br>
-            <span class="item-publishedAt"><?php eh($publishedAt) ?></span>
-            <hr>
+            
         <?php } ?>
-    <?php } ?>
+   
 @endsection
 

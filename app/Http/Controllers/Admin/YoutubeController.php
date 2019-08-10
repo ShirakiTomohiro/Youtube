@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 //use Alaouy\Youtube\Facades\Youtube
@@ -15,54 +15,14 @@ class YoutubeController extends Controller
         return view('admin.news.create');
     }
     
+    public function getData()
+    {
+     $posts = DB::table('movie')->paginate(20);
+      return view('admin.news.index', ['posts' => $posts
+      ]);
+       
     
-   public function scrape() {
-       $goutte = new \Goutte\Client();
-//ユーザーエージェント設定(設定してもしなくてもどちらでも大丈夫かも)
-$goutte->setHeader('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36 ');
-//Youtubeランキングサイトへアクセス
-$response = $goutte->request('GET', "https://ytranking.net/");
-//スクレイピングでデータ取得
-
-$response->filter("ul.channel-list li")->each(function($li){
-$rank    = $li->filter("p.rank")->text();    //順位
-$thumbnail    = $li->filter("p.thumbnail img")->attr("src"); //サムネイルURL
-$title    = $li->filter("p.title")->text();    //チャンネル名
-$regist_num = "";
-$views_num = "";
-$video_num = "";
-$li->filter("aside p")->each(function($p, $i) use(&$regist_num, &$views_num, &$video_num){
-$array = ["チャンネル登録者数 : " ,"動画再生回数 : " ,"動画本数 : "];
-//登録者数
-if( $i == 0 ){
-$regist_num = str_replace("people", "$array[0]", $p->text());
-}
-//再生回数
-if( $i == 1 ){
-$views_num = str_replace("play_circle_filled", "$array[1]", $p->text());
-}
-//動画本数
-if( $i == 2 ){
-$video_num = str_replace("videocam", "$array[2]", $p->text());
-}
-
-});
-echo "{$rank}.<br><img src={$thumbnail}> .<br> {$title}.<br>{$regist_num}.<br> {$views_num}.<br> {$video_num}.<br>";
-
-$movie = new Movie;
-         $movie->title = "aaaaaaa";
-         $movie->regist_num = 1;
-         $movie->views_num;
-         $table->string('video_num');
-         
-         $table->string('ranking');
-$movie->save();
-
-  });
-  
-   }
-  
-
+    }
    
     public function videos()
     {
@@ -72,26 +32,13 @@ $movie->save();
     {
         return view('admin.news.play');
     }
-    public function index()
+    
+    public function id()
     {
-        return view('admin.news.index');
+        
     }
-    public function index2()
-    {
-        return view('admin.news.index2');
-    }
-    public function index3()
-    {
-        return view('admin.news.index3');
-    }
-    public function index4()
-    {
-        return view('admin.news.index4');
-    }
-    public function index5()
-    {
-        return view('admin.news.index5');
-    }
+    
+    
     public function play2()
     {
         return view('admin.news.play2');

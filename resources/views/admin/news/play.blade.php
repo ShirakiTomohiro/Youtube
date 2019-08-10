@@ -14,7 +14,7 @@ function json_get($url, $query = array(), $assoc = false) { // JSONデータ取�
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true); // curl_exec() 経由で応答データを直接取得できるようにする
     curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10); // 接続タイムアウトの秒数
     $responseString = curl_exec($curl); // 応答データ取得
-    print $responseString;
+    //print $responseString;
     exit;
     curl_close($curl);
     return ($responseString !== false) ? json_decode($responseString, $assoc) : false;
@@ -24,14 +24,14 @@ function eh($value, $encoding = 'UTF-8')
 { echo htmlspecialchars($value, ENT_QUOTES, $encoding); } // 同上
 
 
-$response = json_get('https://ytranking.net/', array(
+$response = json_get('https://www.googleapis.com/youtube/v3/channels', array(
     'key' => 'AIzaSyDjdXsXm2J4-K78FdXCcroM8ZNbtpu-ENU',
-    'channelId' => 'UCgMPP6RRjktV7krOfyUewqw', // チャンネルID (チャンネルで絞り込む場合)
+    
     // 'q' => 'テスト', // 検索キーワード (キーワードで絞り込む場合)
-    'part' => 'snippet', // 取得するデータの種類 (タイトルや画像を含める場合はsnippet)
-    'order' => 'viewCount', 
-    'maxResults' => 50, // 検索数 (5～50)
-    'type' => 'video', // 結果の種類 (channel,playlist,video)
+    'part' => 'id', // 取得するデータの種類 (タイトルや画像を含める場合はsnippet)
+    //'order' => 'viewCount', 
+   // 'maxResults' => 50, // 検索数 (5～50)
+    //'type' => 'video', // 結果の種類 (channel,playlist,video)
 ), true);
 ?>
 
@@ -42,18 +42,14 @@ $response = json_get('https://ytranking.net/', array(
         検索結果が0件でした。
     <?php } else { ?>
         <?php foreach ($response['items'] as $item) {
-            $img = $item['snippet']['thumbnails']['default']; // 画像情報 (default, medium, highの順で画像が大きくなります)
-            $id = $item['id']['videoId'];
+            //$img = $item['snippet']['thumbnails']['default']; // 画像情報 (default, medium, highの順で画像が大きくなります)
+            $id = $item['id'];
             
-            $t = new DateTime($item['snippet']['publishedAt']);
-            $t->setTimeZone(new DateTimeZone('Asia/Tokyo'));
-            $publishedAt = $t->format('Y/m/d H:i:s'); // 投稿日時 (日本時間)
+            //$t = new DateTime($item['snippet']['publishedAt']);
+            //$t->setTimeZone(new DateTimeZone('Asia/Tokyo'));
+            //$publishedAt = $t->format('Y/m/d H:i:s'); // 投稿日時 (日本時間)
             ?>
-            <!-- <?php echo json_encode($item, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) ?> -->
-            <a href="https://www.youtube.com/watch?v=<?php eh($id) ?>"><img src="<?php eh($img['url']) ?>"></a><br>
-            <a class="item-title" href="https://www.youtube.com/watch?v=<?php eh($id) ?>"><?php eh($item['snippet']['title']) ?></a><br>
-            <span class="item-publishedAt"><?php eh($publishedAt) ?></span>
-            <hr>
+            print $id;
         <?php } ?>
     <?php } ?>
       

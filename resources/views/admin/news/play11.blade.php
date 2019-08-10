@@ -3,6 +3,7 @@
 @section('content')
 
 <?php
+
 define('AIzaSyDjdXsXm2J4-K78FdXCcroM8ZNbtpu-ENU', ''); // APIキー (Google Developer Consoleから取得したものをセットしてください)
 
 function json_get($url, $query = array(), $assoc = false) { // JSONデータ取得用

@@ -6,18 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Movie extends Model
 {
-    protected $guarded = array('id');
+    //protected $primaryKey = 'null';
+    //public $incrementing = false;
+    protected $table = 'movie';
+    protected $fillable = array('rank','thumbnail','title','regist_num','views_num','video_num');
     
-    public static $rules = array(
-        'rank' => 'required',
-        'title' => 'required',
-        'regist_num' => 'required',
-        'views_num' => 'required',
-        'video_num' => 'required',
-        
-        'ranking' => 'required',
-        );
-    
-        
-    
- }
+}

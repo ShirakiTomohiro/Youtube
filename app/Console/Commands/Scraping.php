@@ -2,9 +2,11 @@
 
 namespace App\Console\Commands;
 
+
 use Illuminate\Console\Command;
 use Goutte;
 use App\Movie;
+
 class Scraping extends Command
 {
     /**
@@ -38,11 +40,15 @@ class Scraping extends Command
      */
     public function handle()
     {
+      Movie::query()->delete();
+  $url=['https://ytranking.net/','https://ytranking.net/?p=2','https://ytranking.net/?p=3','https://ytranking.net/?p=4','https://ytranking.net/?p=5']; 
+  
     $goutte = new \Goutte\Client();
 //ユーザーエージェント設定(設定してもしなくてもどちらでも大丈夫かも)
 $goutte->setHeader('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36 ');
 //Youtubeランキングサイトへアクセス
-$response = $goutte->request('GET', "https://ytranking.net/");
+foreach ($url as $value) {
+$response = $goutte->request('GET', $value);
 //スクレイピングでデータ取得
 
 $response->filter("ul.channel-list li")->each(function($li){
@@ -69,35 +75,26 @@ $video_num = str_replace("videocam", "$array[2]", $p->text());
 });
 echo "{$rank}.<br><img src={$thumbnail}> .<br> {$title}.<br>{$regist_num}.<br> {$views_num}.<br> {$video_num}.<br>";
 
-$movie = new Movie;
-foreach($rank as $ranks) {
-   $movie->title = $ranks;
-}
-$thumbnails = array("はじめしゃちょー（hajime）", "HikakinTV", "Fischer's-フィッシャーズ-", "Yuka Kinoshita木下ゆうか", "avex", "東海オンエア", "HikakinGames", "SUSHI RAMEN【Riku】");
-foreach($thumbnail as $thumbnails) {
-  $movie->thumbnail = $thumbnails;
-}
+  foreach ((array)$rank as $ranks=>$index) {
+     
+      $movie= new Movie; //インスタンス宣言して20回保存を繰り返している
+      $movie->rank=((array)$rank)[0];   
+      $movie->thumbnail=((array)$thumbnail)[0];
+      $movie->title=((array)$title)[0];
+      $movie->regist_num=((array)$regist_num)[0];
+      $movie->views_num=((array)$views_num)[0];
+      $movie->video_num=((array)$video_num)[0];
 
-foreach($title as $titles) {
-  $movie->title = $titles;
-}
-
-foreach($regist_num as $regist_nums) {
-  $movie->regist_num = $regist_nums;
-}
-
-foreach($views_num as $views_nums) {
-  $movie->views_num = $views_nums;
-}
-
-foreach($video_num as $video_nums) {
-  $movie->video_num = $video_nums;
-}
-$movie->save();
-
-  });
+      $movie->save(); 
+  }
+ });
   
-  
-    }
+ 
+   
+    
+    
+    
+}
+}
 
 }

@@ -17,18 +17,11 @@
   
       
       
- Route::get('/1', function() {
-    $crawler = Goutte::request('GET', 'https://ytranking.net/?p=2');
-    //return view('welcome');
-$crawler->filter('.channel-list ')->each(function($ul) {
-        echo nl2br($ul->text());
-      });
-});
-
+ 
 Route::group(['prefix' => 'admin'], function(){
     Route::get('news/index', 'Admin\YoutubeController@index');
     Route::post('news/create', 'Admin\YoutubeController@create');
-    Route::get('news/play', 'Admin\YoutubeController@playlists');
+    Route::get('news/play/', 'Admin\YoutubeController@playlists');
     Route::get('news/videos', 'Admin\YoutubeController@videos');
     Route::get('news/play2', 'Admin\YoutubeController@play2');
     Route::get('news/play3', 'Admin\YoutubeController@play3');
@@ -54,7 +47,7 @@ Route::group(['prefix' => 'admin'], function(){
 Auth::routes();
 
 //Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/', 'Admin\YoutubeController@scrape');
+Route::get('/', 'Admin\YoutubeController@getData');
 Route::get('/2', 'Admin\YoutubeController@index2');
 Route::get('/3', 'Admin\YoutubeController@index3');
 Route::get('/4', 'Admin\YoutubeController@index4');
