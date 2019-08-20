@@ -15,6 +15,7 @@ class CreateMovie2Table extends Migration
     {
         Schema::create('movie2', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('viewCount');
             $table->timestamps();
         });
     }

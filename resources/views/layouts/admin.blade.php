@@ -34,7 +34,6 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     
                         <ul class="navbar-nav ml-auto">
-                            
 
                         {{-- 以下を追記 --}}
                         <!-- Authentication Links -->
@@ -67,7 +66,7 @@
                 </div>
             </nav>
             <main class="py-4">
-                <h2>Youtuberチャンネル登録者数ランキング</h2>
+                
                 @yield('content')
             </main>
         </div>

@@ -163,6 +163,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Alaouy\Youtube\YOutubeServiceProvider::class,
         Weidner\Goutte\GoutteServiceProvider::class,
+        Khill\Lavacharts\Laravel\ LavachartsServiceProvider :: class ,
 
 
         /*
@@ -230,7 +231,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Youtube' => Alaouy\Youtube\Facades\Youtube::class,
-       
+        ' Lava ' => Khill\Lavacharts\Laravel\ LavachartsFacade :: class ,
 
     ],
 

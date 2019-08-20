@@ -23,7 +23,8 @@ class CreateMovieTable extends Migration
          $table->string('regist_num');
          $table->string('views_num');
          $table->string('video_num');
-         //$table->string('ranking');
+         $table->string('channel_url');
+         $table->string('channelId');
          $table->timestamps();
        });
 

@@ -41,20 +41,32 @@ class Scraping extends Command
     public function handle()
     {
       Movie::query()->delete();
-  $url=['https://ytranking.net/','https://ytranking.net/?p=2','https://ytranking.net/?p=3','https://ytranking.net/?p=4','https://ytranking.net/?p=5']; 
+   $url=['https://ytranking.net/','https://ytranking.net/?p=2','https://ytranking.net/?p=3','https://ytranking.net/?p=4','https://ytranking.net/?p=5']; 
   
     $goutte = new \Goutte\Client();
-//ユーザーエージェント設定(設定してもしなくてもどちらでも大丈夫かも)
+//ユーザーエージェント設定
 $goutte->setHeader('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36 ');
 //Youtubeランキングサイトへアクセス
 foreach ($url as $value) {
 $response = $goutte->request('GET', $value);
 //スクレイピングでデータ取得
 
-$response->filter("ul.channel-list li")->each(function($li){
+
+
+
+$response->filter("ul.channel-list li")->each(function($li) {
+
+$channelId = $li->filter("p.more a")->attr("href");
+$goutte2 = new \Goutte\Client();
+$goutte2->setHeader('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36 ');
+$detail_response = $goutte2->request('GET', "https://ytranking.net".$channelId);
+$channel_url = $detail_response->filter("header.header a")->attr("href");
+$channelId = strrchr($channel_url,"/");
+$channelId = substr($channelId,1);
+
 $rank    = $li->filter("p.rank")->text();    //順位
 $thumbnail    = $li->filter("p.thumbnail img")->attr("src"); //サムネイルURL
-$title    = $li->filter("p.title")->text();    //チャンネル名
+$title    = $li->filter("p.title")->text();//チャンネル名
 $regist_num = "";
 $views_num = "";
 $video_num = "";
@@ -73,20 +85,24 @@ if( $i == 2 ){
 $video_num = str_replace("videocam", "$array[2]", $p->text());
 }
 });
-echo "{$rank}.<br><img src={$thumbnail}> .<br> {$title}.<br>{$regist_num}.<br> {$views_num}.<br> {$video_num}.<br>";
 
-  foreach ((array)$rank as $ranks=>$index) {
-     
-      $movie= new Movie; //インスタンス宣言して20回保存を繰り返している
-      $movie->rank=((array)$rank)[0];   
-      $movie->thumbnail=((array)$thumbnail)[0];
-      $movie->title=((array)$title)[0];
-      $movie->regist_num=((array)$regist_num)[0];
-      $movie->views_num=((array)$views_num)[0];
-      $movie->video_num=((array)$video_num)[0];
 
-      $movie->save(); 
-  }
+
+echo "{$rank}.<br><img src={$thumbnail}> .<br> {$title}.<br>{$regist_num}.<br> {$views_num}.<br> {$video_num}.<br> <a href='{$channel_url}'>click</a>.<br> {$channelId}";
+
+  $movie = new Movie([
+    'rank'        => $rank,
+    'thumbnail'   => $thumbnail,
+    'title'       => $title,
+    'regist_num'  => $regist_num,
+    'views_num'   => $views_num,
+    'video_num'   => $video_num,
+    'channel_url' => $channel_url,
+    'channelId'   => $channelId,
+  ]);
+  
+  $movie->save();
+
  });
   
  

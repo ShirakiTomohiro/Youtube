@@ -18,6 +18,9 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <!-- ChartJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    
 </head>
 <body>
     <div id="app">
@@ -73,6 +76,12 @@
         </nav>
 
         <main class="py-4">
+            <canvas id="chart"></canvas>
+<div id="app">
+    @include('layouts.navbar.main')
+
+    @yield('content')
+</div>
             @yield('content')
         </main>
     </div>

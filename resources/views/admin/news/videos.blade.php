@@ -1,47 +1,65 @@
-@extends('layouts.form')
+@extends('layouts.admin')
 @section('title','My動画')
 @section('content')
 
-<?php
-define('AIzaSyDjdXsXm2J4-K78FdXCcroM8ZNbtpu-ENU', ''); // APIキー (Google Developer Consoleから取得したものをセットしてください)
 
-function json_get($url, $query = array(), $assoc = false) { // JSONデータ取得用
-    if ($query) $url .= ('?' . http_build_query($query, '', '&', PHP_QUERY_RFC3986));
-
-    $curl = curl_init();
-    curl_setopt($curl, CURLOPT_URL, $url); // URL
-    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); // リクエスト先が https の場合、証明書検証をしない (環境によって動作しない場合があるため)
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true); // curl_exec() 経由で応答データを直接取得できるようにする
-    curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10); // 接続タイムアウトの秒数
-    $responseString = curl_exec($curl); // 応答データ取得
-    curl_close($curl);
-    return ($responseString !== false) ? json_decode($responseString, $assoc) : false;
-}
-function h($value, $encoding = 'UTF-8'){ return htmlspecialchars($value, ENT_QUOTES, $encoding); } // HTMlエスケープ出力用
-function eh($value, $encoding = 'UTF-8') { echo h($value, $encoding); } // 同上
-
-
-
-$response = json_get('https://www.googleapis.com/youtube/v3/channels', array(
-    'part' => 'id',
-    'forUsername' => 'HikakinTV',
-    'key' => 'AIzaSyDjdXsXm2J4-K78FdXCcroM8ZNbtpu-ENU'
-), true);
-//print_r($response);
-?>
-
-
-    
-    
-    
+  
+    <?php if ($response === false || isset($response['error'])) { ?>
+        動画情報が取得できませんでした。
+    <?php } elseif (count($response['items']) == 0) { ?>
+        検索結果が0件でした。
+    <?php } else { ?>
         <?php foreach ($response['items'] as $item) {
-            
-         echo  $id = $item['id'];
-            
+            $ki = $item['snippet']['title']; // 画像情報 (default, medium, highの順で画像が大きくなります)
+            $id = $item['id'];
+            $ty = $item ['snippet']['thumbnails']['default'];
+            $gu = $item['snippet']['description'];
+            $ft = new DateTime($item['snippet']['publishedAt']);
+            $ft->setTimeZone(new DateTimeZone('Asia/Tokyo'));
+            $publishedAt = $ft->format('Y/m/d');
+            $ti = $item['statistics']['viewCount'];
+            $tt = number_format($ti);
+            $ri = $item['statistics']['subscriberCount'];
+            $ni = number_format($ri);
+            $ji = $item['statistics']['videoCount'];
+            $fi = number_format($ji);
+            $hu = number_format($ti / $ji);
+          
            
             ?>
             
-        <?php } ?>
+        <?php }?>
+    <?php } ?>
    
+    <ul>
+        
+       <h2>{{ $ki }}</h2>
+    </ul>
+    <ul>
+        <p>登録日 : {{ $publishedAt }}</p>
+    </ul>
+    <ul>
+        <img src = $ty>
+    </ul>
+    <ul>
+        <p>チャンネルURL : <a href="https://www.youtube.com/channel/{{$id}}" role="button">https://www.youtube.com/channel/{{$id}}</a></p>
+    </ul>
+  
+    <ul>
+        {{ $gu }}
+    </ul>
+    <ul>
+        <p>再生回数 : {{ $tt }}回</p>
+    </ul>
+    <ul>
+        <p>チャンネル登録者数 : {{ $ni }}人 </p>
+    </ul>
+    <ul>
+        <p>動画本数 : {{ $fi }}本</p>
+    </ul>
+    <ul>
+        <p>1動画あたりの</bn>動画再生回数 : {{ $hu }}</p>
+    </ul>
+
 @endsection
 
