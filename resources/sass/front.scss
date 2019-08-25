@@ -1,0 +1,34 @@
+body {
+    color: #000;
+}
+
+.header {
+   .logo{
+       width: 120px;
+       height: 82px;
+   }
+}
+
+
+
+.posts {
+    .post {
+        .date {
+            font-size: 0.6em;
+            color: #999999;
+        }
+        .title {
+            font-size: 1.2em;
+            color:#555;
+        }
+        .body {
+            font-size: 1.0em;
+            font-weight:bold;
+        }
+        .image {
+            img {
+            width: 300px;
+            }
+        }
+    }
+}

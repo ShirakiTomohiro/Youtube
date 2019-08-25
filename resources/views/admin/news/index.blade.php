@@ -1,10 +1,10 @@
 @extends('layouts.admin')
-@section('title','My動画')
+@section('title','Youtubeanalysis')
 @section('content')
 
 <div class="container">
     <div class="row">
-      <h2>Youtube解析ツール</h2>
+      <h2>Youtuberチャンネル登録者数ランキング</h2>
     </div> 
 
  <div class="row">
@@ -26,23 +26,21 @@
  <div class="row">
   <div class="list-news col-md-12 mx-auto">
    <div class="row">
-    <table class="table table-light">
-     <tbody>
       @foreach($posts as $news)
-      <tr>
-       <th>{{ $news->rank }}</th>
-       <td><img src=$news></td>
-       <td>{{ $news->title }}</td>
-       <td>{{ $news->regist_num }}</td>
-       <td>{{ $news->views_num }}</td>
-       <td>{{ $news->video_num }}</td>
-       <td><a href="{{ $news -> channel_url }}" role="button"
-                                     class="btn btn-primary">Youtubeへ</a></td>
+　　　<ul class="channel-list">
+　　　 <li>
+       <p>{{ $news->rank }}</p>
+       <p><img src=$news></p>
       
-      </tr>
+       <p>{{ $news->title }}</p>
+       <p>{{ $news->regist_num }}</p>
+       <p>{{ $news->views_num }}</p>
+       <p>{{ $news->video_num }}</p>
+       <p><a href="{{ action('Admin\YoutubeController@playlists', ['channelId' => $news->channelId]) }}" role="button"
+                                     class="btn btn-primary">動画一覧</a></p>
+       </li>
+      </ul>
       @endforeach
-     </tbody>
-    </table>
    </div>
   </div>
  </div>
@@ -50,6 +48,6 @@
  
    
  </div>
-</div>
+
 <ul class="pagination justify-content-center"> {{ $posts->links() }}</ul>
 @endsection

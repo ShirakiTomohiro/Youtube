@@ -39,9 +39,10 @@ body {
   background-color: rgba(0, 0, 0, 0.25);
 }
 
-.index {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+.btn container {
+  padding-top: 18px;
+  width: 100%;
+  height: 72px;
+  margin-bottom: 30px;
 }
 

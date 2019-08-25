@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title','My動画')
+@section('title','Youtubeanalysis')
 @section('content')
 
 <?php
@@ -13,6 +13,7 @@ function eh($value, $encoding = 'UTF-8')
         検索結果が0件でした。
     <?php } else { ?>
         <?php foreach ($response['items'] as $item) {
+            $title = $item['snippet']['title'];
             $img = $item['snippet']['thumbnails']['default']; // 画像情報 (default, medium, highの順で画像が大きくなります)
             $id = $item['id']['videoId'];
             
@@ -22,12 +23,23 @@ function eh($value, $encoding = 'UTF-8')
             
             ?>
             
-            <a href="https://www.youtube.com/watch?v=<?php eh($id) ?>"><img src="<?php eh($img['url']) ?>"></a><br>
-            <a class="item-title" href="https://www.youtube.com/watch?v=<?php eh($id) ?>"><?php eh($item['snippet']['title']) ?></a><br>
-            <span class="item-publishedAt"><?php eh($publishedAt) ?></span><br>
-            <a href = "{{ action('Admin\YoutubeController@info' , ['videoId' => $id]) }}" role="button"
-             class="btn btn-primary">解析</a>
-            <hr>
+            <div class="container">
+                <div class="row">
+                    <div class="list-news col-md-10 mx-auto">
+                        <div class="row">
+                            <div class= "movie-channel">
+                                <p><img src="<?php eh($img['url']) ?>"></p>
+                                <p><?php eh($title)?></p>
+                                <p><?php $publishedAt ?></p>
+                                <p><a href = "{{ action('Admin\YoutubeController@info' , ['videoId' => $id])}}" role="button"
+             class="btn btn-primary">投稿</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
         <?php }?>
     <?php } ?>
 

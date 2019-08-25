@@ -11,4 +11,5 @@ class Movie extends Model
     protected $table = 'movie';
     protected $fillable = array('rank','thumbnail','title','regist_num','views_num','video_num','channel_url','channelId');
     
+   
 }

@@ -24,21 +24,18 @@ Route::group(['prefix' => 'admin',], function(){
     Route::post('news/', 'Admin\YoutubeController@create')->middleware('auth');
     Route::get('news/play', 'Admin\YoutubeController@playlists')->middleware('auth');
     Route::get('news/videos', 'Admin\YoutubeController@videos')->middleware('auth');
-     Route::post('news/videos', 'Admin\YoutubeController@videos')->middleware('auth');
     Route::get('news/play2', 'Admin\YoutubeController@play2')->middleware('auth');
     Route::get('news/info', 'Admin\YoutubeController@info')->middleware('auth');
+    Route::post('news/info', 'Admin\YoutubeController@info_create')->middleware('auth');
+    Route::get('news/getData', 'Admin\YoutubeController@getData')->middleware('auth');
+    Route::get('news/edit', 'Admin\YoutubeController@edit')->middleware('auth');
+    Route::post('news/edit', 'Admin\YoutubeController@update')->middleware('auth');
+   
     //Route::get('news/play', 'Admin\YoutubeController@play');
-    
     
     
 });
 Auth::routes();
 
-//Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/', 'Admin\YoutubeController@getData');
-Route::get('/home', 'Admin\YoutubeController@add')->middleware('auth');
 
-Route::get('/2', 'Admin\YoutubeController@index2');
-Route::get('/3', 'Admin\YoutubeController@index3');
-Route::get('/4', 'Admin\YoutubeController@index4');
-Route::get('/5', 'Admin\YoutubeController@index5');
+Route::get('/home', 'YoutubeController@index');

@@ -1,27 +1,39 @@
-@extends('layouts.form')
-@section('title','My動画')
+@extends('layouts.admin')
+@section('title','Youtubeanalysis')
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 mx-auto">
-            <form action="{{ action('Admin\YoutubeController@videos') }}"
-            method = "post" enctype="mutipart/form-data">
-                @if (count($errors) > 0)
-                   <ul>
-                       @foreach($errors->all() as $e)
-                          <li>{{ $e }}</li>
-                       @endforeach
-                   </ul>
-                @endif
-                <div class="form-group row">
-                    <label class="col-md-5" for="cond_title">https://www.youtube.com/channel/</label>
-                    <div class="col-md-9">
-                        <input type="text" class="form-control" name="cond_title" value="{{ old('cond_title') }}">
-                    </div>
-                </div>
-                {{ csrf_field() }}
-                <input type="submit" class="btn btn-primary" value="解析">
-            </form>
+        <h2>投稿一覧</h2>
+    </div>
+    <div class="row">
+        <div class="list-news col-md-12 mx-auto">
+            <div class="row">
+                <table class="table table-light">
+                    <thead>
+                        <tr>
+                            <th width="10%">ID</th>
+                            <th width="20%">タイトル</th>
+                            <th width="20%">画像</th>
+                            <th width="50%">コメント</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($result as $news)
+                        <tr>
+                            <th>{{ $news->user_id }}</th>
+                            <td>{{ str_limit($news->title, 30) }}</td>
+                            <td><img src="{{ $news->image }}"></td>
+                            <td>{{ str_limit($news->body, 250) }}</td>
+                            <td>
+                                <div>
+                                    <a href="{{ action('Admin\YoutubeController@edit',['user_id' => $news->user_id])  }}" role="button" class="btn btn-primary">編集</a>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

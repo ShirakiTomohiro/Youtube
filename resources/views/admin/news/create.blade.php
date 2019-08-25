@@ -1,12 +1,14 @@
 @extends('layouts.admin')
 
-@section('title', 'My動画')
+@section('title', 'Youtubeanalysis')
 
 @section('content')
 
+
+
 <div class="container">
     <div class="row">
-      <h2>Youtube解析ツール</h2>
+      <h2>Youtuberチャンネル登録者数ランキング</h2>
     </div> 
 
  <div class="row">
@@ -28,23 +30,21 @@
  <div class="row">
   <div class="list-news col-md-12 mx-auto">
    <div class="row">
-    <table class="table table-light">
-     <tbody>
+    
       @foreach($result as $news)
-      <tr>
-       <th>{{ $news->rank }}</th>
-       <td><img src=$news></td>
-       <td><a href="{{ action('Admin\YoutubeController@videos', ['channelId' => $news->channelId]) }}" role="button" >{{ $news->title }}</a></td>
-       <td>{{ $news->regist_num }}</td>
-       <td>{{ $news->views_num }}</td>
-       <td>{{ $news->video_num }}</td>
-       <td><a href="{{ action('Admin\YoutubeController@playlists', ['channelId' => $news->channelId]) }}" role="button"
-                                     class="btn btn-primary">動画一覧</a></td>
-       
-      </tr>
+　　　<ul class="channel-list">
+       <p>{{ $news->rank }}</p>
+       <p><img src=$news></p>
+      
+       <p><a href="{{ action('Admin\YoutubeController@videos', ['channelId' => $news->channelId]) }}" role="button" >{{ $news->title }}</a></p>
+       <p>{{ $news->regist_num }}</p>
+       <p>{{ $news->views_num }}</p>
+       <p>{{ $news->video_num }}</p>
+       <p><a href="{{ action('Admin\YoutubeController@playlists', ['channelId' => $news->channelId]) }}" role="button"
+                                     class="btn btn-primary">動画一覧</a></p>
+      
+      </ul>
       @endforeach
-     </tbody>
-    </table>
    </div>
   </div>
  </div>

@@ -1,73 +1,66 @@
 @extends('layouts.admin')
-@section('title','My動画')
+@section('title','Youtubeanalysis')
 @section('content')
 
- <?php if ($response === false || isset($response['error'])) { ?>
+<?php
+function h($value, $encoding = 'UTF-8') 
+{ return htmlspecialchars($value, ENT_QUOTES, $encoding); } // HTMlエスケープ出力用
+function eh($value, $encoding = 'UTF-8') 
+{ echo h($value, $encoding); } // 同上?>
+    <?php if ($response === false || isset($response['error'])) { ?>
         動画情報が取得できませんでした。
     <?php } elseif (count($response['items']) == 0) { ?>
         検索結果が0件でした。
     <?php } else { ?>
         <?php foreach ($response['items'] as $item) {
-            $img = $item['snippet']['title']; // 画像情報 (default, medium, highの順で画像が大きくなります)
-            $ty = $item ['snippet']['thumbnails']['default'];
-            $bu = $item['snippet']['description'];
-            $ct = $item['snippet']['channelTitle'];
-            $ca = $item['snippet']['categoryId'];
-            //$tag = $item['snippet.tags[]'];
-            $ft = new DateTime($item['snippet']['publishedAt']);
-            $ft->setTimeZone(new DateTimeZone('Asia/Tokyo'));
-            $publishedAt = $ft->format('Y/m/d');
-            $ti = $item['statistics']['viewCount'];
-            $tt = number_format($ti);
-            $tk = $item['statistics']['likeCount'];
-            $kk = $item['statistics']['dislikeCount'];
-            $rt = $item['statistics']['favoriteCount'];
-            $cd = $item['contentDetails']['duration'];
-            
+            $title = ($item['snippet']['title']);
+            $img = ($item['snippet']['thumbnails']['medium']); // 画像情報 (default, medium, highの順で画像が大きくなります)
            
-           
-          
-  ?>
-            
-        <?php }?>
+?>
+<?php }?>
     <?php } ?>
-   <ul>
-         <h2>調査結果</h2>
-       <p>タイトル :   {{ $img }}</p>
-    </ul>
-    <ul>
-        <p>登録日 : {{ $publishedAt }}</p>
-    </ul>
-    <ul>
-        <img src = $ty>
-    </ul>
-    <ul>
-        <p>動画概要 : {{ $bu }}</p>
-    </ul>
-    <ul>
-        <p>チャンネルタイトル : {{ $ct }}</p>
-    </ul>
-    <ul>
-        <p>動画カテゴリ : {{ $ca }}</p>
-    </ul>
-    
-    <ul>
-        <p>再生回数 : {{ $tt }}回</p>
-    </ul>
-    <ul>
-        <p>[高評価] : {{ $tk }}</p>
-    </ul>
-    <ul>
-        <p>[低評価] : {{ $kk }}</p>
-    </ul>
-    <ul>
-        <p>お気に入り : {{ $rt }}</p>
-    </ul>
-    <ul>
-        <p>動画再生時間 : {{ $cd }}</p>
-    </ul>
-   
-    
+ <div class="container">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <h2>投稿する</h2>
+                <form action="{{ action('Admin\YoutubeController@info_create') }}" method="post" enctype="multipart/form-data">
+
+                    @if (count($errors) > 0)
+                        <ul>
+                            @foreach($errors->all() as $e)
+                                <li>{{ $e }}</li>
+                            @endforeach
+                        </ul>
+                    @endif
+                    <div class="form-group row">
+                        <label class="col-md-10" for="body">{{ $user }}</label>
+                        <input type="hidden" name="user" class="user" value="{{ $user }}"/>
+                        
+                        <label class="col-md-2" for="body"></label>
+                        <div class="col-md-10">
+                            <textarea class="form-control" name="body" rows="20">{{ old('body') }}</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <ul>
+                             <p><img src="<?php eh($img['url']) ?>" name="image"></p>
+                             <p><?php eh($title)?></p>
+                        </ul>
+                        <input type="hidden" name="title" class="title" value="{{ eh($title) }}"/>
+                        <input type="hidden" name="image" value="{{ eh($img['url']) }}"/>
+                          <!--<input type="file" name="image" />-->
+                    </div>
+                    {{ csrf_field() }}
+                    <div class="btn-container" style="text-align: right;">
+                        <input type="submit" class="btn btn-primary" value="送信">
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+  </div>  
+                      
+                    
 
 
 @endsection

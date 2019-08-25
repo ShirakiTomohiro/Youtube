@@ -14,8 +14,11 @@ class CreateMovie2Table extends Migration
     public function up()
     {
         Schema::create('movie2', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('viewCount');
+            $table->bigIncrements('user_id');
+            //$table->string('user');
+            $table->string('body');
+            $table->string('title');
+            $table->string('image');
             $table->timestamps();
         });
     }

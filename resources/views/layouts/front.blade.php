@@ -17,6 +17,7 @@
          
          <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet">
          <link href="{{ secure_asset('css/admin.css') }}" rel="stylesheet">
+         <link href="{{ secure_asset('css/front.css') }}" rel="stylesheet">
     </head>
     <body>
         <div id="app">
@@ -40,28 +41,30 @@
                         {{-- ログインしていなかったらログイン画面へのリンクを表示 --}}
                         @guest
                             <li><a class="nav-link" href="{{ route('login') }}">{{ __('messages.Login') }}</a></li>
-                            <li><a class="nav-link" href="{{ route('register') }}">{{__('messages.Register') }}</a></li>
+                            <li></li> <a class="nav-link" href="{{ route('register') }}">{{__('messages.Register') }}</a></li>
                         {{-- ログインしていたらユーザー名とログアウトボタンを表示 --}}
                         @else
+                       
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
-                                
-
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
-
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
+                                     
+                                     <li><a class="nav-link" href = "{{ action('Admin\YoutubeController@getData') }}">ランキング</a> </li>
+                                     <li><a class="nav-link" href= "{{ action('Admin\YoutubeController@play2') }}">Myページ</a></li>
                                 </div>
                             </li>
                             @endguest
+                            
                             {{-- 以上までを追記 --}}
                         </ul>
                     </div>
