@@ -163,7 +163,8 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Alaouy\Youtube\YOutubeServiceProvider::class,
         Weidner\Goutte\GoutteServiceProvider::class,
-        Khill\Lavacharts\Laravel\ LavachartsServiceProvider :: class ,
+        Khill\Lavacharts\Laravel\ LavachartsServiceProvider :: class,
+        kanazaca \ CounterCache \ CounterCacheServiceProvider :: class,
 
 
         /*

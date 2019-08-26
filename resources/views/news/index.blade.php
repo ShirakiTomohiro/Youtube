@@ -9,6 +9,9 @@
                     <div class="post">
                         <div class="row">
                             <div class="text col-md-6">
+                                <div class="user_name">
+                                    {{ $post->user_name }}
+                                </div>
                                 <div class="date">
                                     {{ $post->updated_at->format('Y年m月d日') }}
                                 </div>
@@ -18,6 +21,7 @@
                                 <div class="body mt-3">
                                     {{ str_limit($post->body, 1500) }}
                                 </div>
+                                   
                             </div>
                             <div class="image col-md-6 text-right mt-4">
                                 @if ($post->image)

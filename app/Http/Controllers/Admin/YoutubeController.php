@@ -146,8 +146,8 @@ $response = json_get('https://www.googleapis.com/youtube/v3/videos', array(
     'maxResults' => '1',
 ), true);
 
-$user = Auth::user()->name;
-return view('admin.news.info', ['response' => $response, 'user' => $user]);
+$user_name = Auth::user()->name;
+return view('admin.news.info', ['response' => $response, 'user_name' => $user_name]);
 }
 
 
@@ -161,8 +161,7 @@ public function __construct()
     public function info_create(Request $request)
     {
         $movie2 = new Movie2;
-        $movie2->user_id = $request->id;
-        //$movie2->user_name = $request->user_name;
+        $movie2->user_name = $request->user_name;
         $movie2->title = $request->title;
         $movie2->body = $request->body;
         $movie2->image = $request->image;

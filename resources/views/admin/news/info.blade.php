@@ -33,8 +33,8 @@ function eh($value, $encoding = 'UTF-8')
                         </ul>
                     @endif
                     <div class="form-group row">
-                        <label class="col-md-10" for="body">{{ $user }}</label>
-                        <input type="hidden" name="user" class="user" value="{{ $user }}"/>
+                        <label class="col-md-10" for="body">{{ $user_name }}</label>
+                        <input type="hidden" name="user_name" class="user" value="{{ $user_name }}"/>
                         
                         <label class="col-md-2" for="body"></label>
                         <div class="col-md-10">

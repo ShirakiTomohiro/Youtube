@@ -39,3 +39,6 @@ Auth::routes();
 
 
 Route::get('/home', 'YoutubeController@index');
+Route::get('/', 'YoutubeController@index');
+//Route::post('/posts/{post}/likes', 'LikesController@store');
+//Route::post('/posts/{post}/likes/{like}', 'LikesController@destroy');
