@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use kanazaca\CounterCache\CounterCache;
 
 class Like extends Model
 {
@@ -24,6 +25,6 @@ class Like extends Model
 
     public function User()
     {
-      return $this->belongsTo(User::class);
+      return $this->belongsTo('App\User');
     }
 }

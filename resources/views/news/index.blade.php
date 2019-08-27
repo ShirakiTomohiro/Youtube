@@ -21,11 +21,15 @@
                                 <div class="body mt-3">
                                     {{ str_limit($post->body, 1500) }}
                                 </div>
-                                   
+                                    @if($post->like()->where('user_id', Auth::user()->id))
+                                    <a href="{{ action('LikesController@destroy', ['postId'=>$post->id, 'likeId'=>$like->id]) }}" class="btn btn_primary">いいねを解除する</a>
+                                @else
+                                    <a href="{{ action('LikesController@store',['postId' => $post->id]) }}" class="btn btn_primary">いいねする</a>
                             </div>
                             <div class="image col-md-6 text-right mt-4">
                                 @if ($post->image)
                                     <img src="{{ $post->image }}">
+                                @endif
                                 @endif
                             </div>
                         </div>

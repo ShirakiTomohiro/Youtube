@@ -22,7 +22,7 @@ class LikesController extends Controller
         $post = Post::findOrFail($postId);
 
         return redirect()
-             ->action('PostsController@show', $post->id);
+             ->action('PostController@show', $post->id);
     }
 
     public function destroy($postId, $likeId) {
@@ -30,6 +30,6 @@ class LikesController extends Controller
       $post->like_by()->findOrFail($likeId)->delete();
 
       return redirect()
-             ->action('PostsController@show', $post->id);
+             ->action('PostController@show', $post->id);
     }
 }

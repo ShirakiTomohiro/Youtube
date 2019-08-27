@@ -17,6 +17,7 @@ class YoutubeController extends Controller
         
        
         return view('news.index', ['posts' => $posts]);
+    
     }
    
    

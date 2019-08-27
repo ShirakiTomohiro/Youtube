@@ -18,7 +18,7 @@ class PostController extends Controller
       $post = Post::findOrFail($id); // findOrFail 見つからなかった時の例外処理
 
       $like = $post->likes()->where('user_id', Auth::user()->id)->first();
-
+      
       return view('news.index')->with(array('post' => $post, 'like' => $like));
     }
 }
