@@ -38,9 +38,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     
-    public function posts()
+    public function Movie2()
     {
-        return $this->hasMany('App\Post');
+        return $this->hasMany('App\Movie2');
     }
     
     public function likes()

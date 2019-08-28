@@ -15,11 +15,13 @@ class CreateMovie2Table extends Migration
     {
         Schema::create('movie2', function (Blueprint $table) {
             $table->increments('id');
-            //$table->string('user');
+            //$table->integer('user_id')->unsigned();
             $table->string('body');
             $table->string('title');
             $table->string('image');
             $table->timestamps();
+            
+            
         });
     }
 

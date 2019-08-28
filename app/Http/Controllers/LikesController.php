@@ -6,30 +6,23 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Like;
 use Auth;
-use App\Post;
+use App\Movie2;
 
 class LikesController extends Controller
 {
-    public function store(Request $request, $postId)
+    public function store(Request $request)
     {
-        Like::create(
-          array(
-            'user_id' => Auth::user()->id,
-            'post_id' => $postId
-          )
-        );
-
-        $post = Post::findOrFail($postId);
-
-        return redirect()
-             ->action('PostController@show', $post->id);
-    }
-
-    public function destroy($postId, $likeId) {
-      $post = Post::findOrFail($postId);
-      $post->like_by()->findOrFail($likeId)->delete();
-
-      return redirect()
-             ->action('PostController@show', $post->id);
-    }
+      
+        $like = new Like;
+        
+        $like->user_id = Auth::user()->id;
+        $like->product_id = $request->id;
+        
+        $movie2 = Movie2::find($request->id);
+        $user = User::find($movie2->user_id);
+        
+        $like->save();
+        
+        return view('news.index');
+        
 }
